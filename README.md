@@ -67,7 +67,7 @@
 ### Requirements
 
 Keeping the core functionality in place, upgrade RESTy
-* Convert from component state to a Redux Store
+ *  Convert from component state to a Redux Store
 
 * Convert from using superagent to fetch
 * Modularize the component and store tree
