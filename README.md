@@ -4,11 +4,11 @@
 
 ## Authored by Matt Wilkin
 
-[PR]()
+* [PR]()
 
-[AWS Deployment]()
+* [AWS Deployment](not accomplished yet)
 
-[UML]()
+* [UML](https://www.lucidchart.com/documents/view/49c54ce9-3fc4-42be-b718-667439159bdf/0)
 
 ### File Structure (Target)
 
@@ -22,6 +22,7 @@
 │   ├── paths.js
 │   ├── webpack.config.js
 │   └── webpackDevServer.config.js
+│
 ├── README.md
 ├── package.json
 ├── package-lock.json
@@ -34,8 +35,9 @@
 │   └── test.js
 └── src
     ├── actions
-    │   ├── formActions.js
-    │   └── historyActions.js
+    │   ├── formAction.js
+    │   └── historyAction.js
+    │
     ├── components
     │   ├── footer
     │   │   └── index.js
@@ -46,20 +48,23 @@
     │       ├── form.js
     │       ├── history.js
     │       ├── index.js
-    │       ├── method-handler.js
+    │       ├── methodHandler.js
     │       ├── methods.js
     │       └── resty.css
+    │
     ├── app.js
     ├── index.js
     ├── lib
     │   ├── api.js
     │   └── utils.js
-    ├── reducers
-    │   ├── form-reducers.js
-    │   └── history-reducers.js
-    ├── store
-    │   ├── index.js
     │   └── reporter.js
+    │
+    ├── reducers
+    │   ├── formReducer.js
+    │   └── historyReducer.js
+    ├── store
+    │   └── index.js
+    │   
     └── style
         ├── reset.css
         └── style.css
@@ -79,15 +84,16 @@ Keeping the core functionality in place, upgrade RESTy
 * Use the deployed API server at https://api-401js.herokuapp.com
 * The API server has players and teams models
 ##### The api server supports the following routes:
-`GET /api/v1/models` - A list of all data models
 
-`GET /api/v1/:model/schema` - The JSON Schema for a given model
+* `GET /api/v1/models` - A list of all data models
 
-`GET /api/v1/:model/id` - A single record, from a model, with the id
+* `GET /api/v1/:model/schema` - The JSON Schema for a given model
 
-`DELETE /api/v1/:model/id` - Delete a single record, from a model, with the id
+* `GET /api/v1/:model/id` - A single record, from a model, with the id
 
-`PUT /api/v1/:model/id` - Replace single record, from a model, with the id
+* `DELETE /api/v1/:model/id` - Delete a single record, from a model, with the id
 
-`PATCH /api/v1/:model/id` - Tactically update a single record, from a model, with the id
+* `PUT /api/v1/:model/id` - Replace single record, from a model, with the id
+
+* `PATCH /api/v1/:model/id` - Tactically update a single record, from a model, with the id
 
