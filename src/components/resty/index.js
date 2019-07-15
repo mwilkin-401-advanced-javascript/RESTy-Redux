@@ -5,6 +5,8 @@ import superagent from 'superagent';
 import ReactJson from 'react-json-view';
 import md5 from 'md5';
 
+import History from './history';
+
 class RESTy extends React.Component {
   constructor(props) {
     super(props);
@@ -122,7 +124,8 @@ class RESTy extends React.Component {
   render() {
     return (
       <main>
-        <aside>
+        <History />
+        {/* <aside>
           <h2>History</h2>
           <ul id="history">
             {this.state.history &&
@@ -136,8 +139,9 @@ class RESTy extends React.Component {
                 </li>
               ))}
           </ul>
-        </aside>
+        </aside> */}
         <section className="deck">
+          {/* <Form /> */}
           <form onSubmit={this.callAPI}>
             <section>
               <input
@@ -253,7 +257,8 @@ class RESTy extends React.Component {
               </div>
             </section>
           </form>
-          <div id="json">
+          <DisplayResonse header={this.props.formData.header} body={this.props.formData.body}/>
+          {/* <div id="json">
             <ReactJson
               name="Headers"
               enableClipboard={false}
@@ -266,7 +271,7 @@ class RESTy extends React.Component {
               collapsed={false}
               src={this.state.body}
             />
-          </div>
+          </div> */}
         </section>
       </main>
     );
