@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import App from './app.js';
+import App from './app';
 
 class Main extends React.Component {
   render() {
