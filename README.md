@@ -4,9 +4,11 @@
 
 ## Authored by Matt Wilkin
 
-* [PR]()
+* [PR - dev branch](https://github.com/mwilkin-401-advanced-javascript/RESTy-Redux/pull/1)
 
 * [AWS Deployment](not accomplished yet)
+
+* [Netlify](https://compassionate-johnson-052808.netlify.com)
 
 * [UML](https://www.lucidchart.com/documents/view/49c54ce9-3fc4-42be-b718-667439159bdf/0)
 
