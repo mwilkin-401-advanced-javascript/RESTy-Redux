@@ -6,6 +6,7 @@ import ReactJson from 'react-json-view';
 import md5 from 'md5';
 
 import History from './history';
+// import DisplayResonse from './displayResponse';
 
 class RESTy extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class RESTy extends React.Component {
 
   componentDidMount() {
     try {
-      let history = JSON.parse(localStorage.getItem('history'));
+      const history = JSON.parse(localStorage.getItem('history'));
       this.setState({ history });
     } catch (e) {
       console.error(e);
@@ -38,9 +39,9 @@ class RESTy extends React.Component {
   };
 
   updateHistory = () => {
-    let url = new URL(this.state.url);
+    const url = new URL(this.state.url);
 
-    let lastRun = {
+    const lastRun = {
       host: url.hostname,
       path: url.pathname,
       url: this.state.url,
@@ -53,70 +54,69 @@ class RESTy extends React.Component {
       header: {},
     };
 
-    let key = md5(JSON.stringify(lastRun));
-    let entry = { [key]: lastRun };
-    let history = { ...this.state.history, ...entry };
+    const key = md5(JSON.stringify(lastRun));
+    const entry = { [key]: lastRun };
+    const history = { ...this.state.history, ...entry };
     this.setState({ history });
     this.saveHistory();
   };
 
-  resetFormFromHistory = event => {
+  resetFormFromHistory = (event) => {
     event.preventDefault();
-    let newState = this.state.history[event.currentTarget.id];
+    const newState = this.state.history[event.currentTarget.id];
     this.setState({ ...newState });
   };
 
-  handleChange = event => {
-    let prop = event.target.name;
-    let value = event.target.value;
+  handleChange = (event) => {
+    const prop = event.target.name;
+    const { value } = event.target;
     this.setState({ [prop]: value });
 
     // If basic/bearer, clear the other
     if (prop === 'token') {
-      let username = '';
-      let password = '';
+      const username = '';
+      const password = '';
       this.setState({ username, password });
     }
 
     if (prop.match(/username|password/)) {
-      let token = '';
+      const token = '';
       this.setState({ token });
     }
   };
 
   toggleHeaders = () => {
-    let headersVisible = !this.state.headersVisible;
+    const headersVisible = !this.state.headersVisible;
     this.setState({ headersVisible });
   };
 
-  callAPI = event => {
+  callAPI = (event) => {
     event.preventDefault();
 
-    let contentType = { 'Content-Type': 'application/json' };
-    let bearer = this.state.token
+    const contentType = { 'Content-Type': 'application/json' };
+    const bearer = this.state.token
       ? { Authorization: `Bearer ${this.state.token}` }
       : {};
-    let basic =
-      this.state.username && this.state.password
-        ? {
-            Authorization:
-              'Basic ' + btoa(`${this.state.username}:${this.state.password}`),
-          }
-        : {};
+    const basic = this.state.username && this.state.password
+      ? {
+        Authorization:
+              `Basic ${btoa(`${this.state.username}:${this.state.password}`)}`,
+      }
+      : {};
 
     superagent(this.state.method, this.state.url)
       .set('Content-Type', 'application/json')
       .set(Object.assign(contentType, bearer, basic))
       .send(this.state.requestBody)
-      .then(response => {
-        let header = response.header;
-        let body = response.body;
+      .then((response) => {
+        const { header } = response;
+        const { body } = response;
         this.setState({ header, body });
         this.updateHistory();
       })
-      .catch(e => {
-        let body = { error: e.message };
-        let header = {};
+      .catch((e) => {
+        const body = { error: e.message };
+        const header = {};
         this.setState({ header, body });
       });
   };
@@ -124,7 +124,7 @@ class RESTy extends React.Component {
   render() {
     return (
       <main>
-        <History />
+        <History handleClick={this.resetFormFromHistory}/>
         {/* <aside>
           <h2>History</h2>
           <ul id="history">
@@ -158,7 +158,7 @@ class RESTy extends React.Component {
                   <input
                     type="radio"
                     name="method"
-                    checked={this.state.method === 'get' ? true : false}
+                    checked={this.state.method === 'get'}
                     value="get"
                     onChange={this.handleChange}
                   />
@@ -168,7 +168,7 @@ class RESTy extends React.Component {
                   <input
                     type="radio"
                     name="method"
-                    checked={this.state.method === 'post' ? true : false}
+                    checked={this.state.method === 'post'}
                     value="post"
                     onChange={this.handleChange}
                   />
@@ -178,7 +178,7 @@ class RESTy extends React.Component {
                   <input
                     type="radio"
                     name="method"
-                    checked={this.state.method === 'put' ? true : false}
+                    checked={this.state.method === 'put'}
                     value="put"
                     onChange={this.handleChange}
                   />
@@ -188,7 +188,7 @@ class RESTy extends React.Component {
                   <input
                     type="radio"
                     name="method"
-                    checked={this.state.method === 'patch' ? true : false}
+                    checked={this.state.method === 'patch'}
                     value="patch"
                     onChange={this.handleChange}
                   />
@@ -198,7 +198,7 @@ class RESTy extends React.Component {
                   <input
                     type="radio"
                     name="method"
-                    checked={this.state.method === 'delete' ? true : false}
+                    checked={this.state.method === 'delete'}
                     value="delete"
                     onChange={this.handleChange}
                   />
@@ -218,7 +218,7 @@ class RESTy extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.requestBody}
                   disabled={
-                    this.state.method.match(/get|delete/) ? true : false
+                    !!this.state.method.match(/get|delete/)
                   }
                 />
               </div>
@@ -227,7 +227,7 @@ class RESTy extends React.Component {
                 <button onClick={this.toggleHeaders}>
                   Headers
                 </button>
-                <div className={'visible-' + this.state.headersVisible}>
+                <div className={`visible-${this.state.headersVisible}`}>
                   <h2>Basic Authorization</h2>
                   <input
                     onChange={this.handleChange}
@@ -243,7 +243,7 @@ class RESTy extends React.Component {
                     value={this.state.password}
                   />
                 </div>
-                <div className={'visible-' + this.state.headersVisible}>
+                <div className={`visible-${this.state.headersVisible}`}>
                   <h2>Bearer Token</h2>
                   <input
                     onChange={this.handleChange}
@@ -257,8 +257,8 @@ class RESTy extends React.Component {
               </div>
             </section>
           </form>
-          <DisplayResonse header={this.props.formData.header} body={this.props.formData.body}/>
-          {/* <div id="json">
+          {/* <DisplayResonse header={this.props.formData.header} body={this.props.formData.body}/> */}
+          <div id="json">
             <ReactJson
               name="Headers"
               enableClipboard={false}
@@ -271,7 +271,7 @@ class RESTy extends React.Component {
               collapsed={false}
               src={this.state.body}
             />
-          </div> */}
+          </div>
         </section>
       </main>
     );
